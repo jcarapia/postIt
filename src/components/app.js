@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Header from '../Components/header';
-import Note from '../Components/note';
+import Header from './header';
+import Note from './note';
 
 export default class App extends Component {
   render() {
