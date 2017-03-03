@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 
-import SearchField from '../containers/search_field'
+import Header from '../Components/header'
 
 export default class App extends Component {
   render() {
     return (
       <div>
-      React-Redux Template for Heroku
-      <SearchField />
+      <Header />
       </div>
     );
   }
