@@ -22350,8 +22350,8 @@
 		}
 
 		_createClass(Board, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
+			key: 'componentWillMount',
+			value: function componentWillMount() {
 				var notes = localStorage.getItem('notes');
 				notes = JSON.parse(notes);
 				console.log('***', notes);

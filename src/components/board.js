@@ -4,7 +4,7 @@ import Note from './note';
 
 export default class Board extends Component {
 
-	componentDidMount() {
+	componentWillMount() {
 		let notes = localStorage.getItem('notes')
 		notes = JSON.parse(notes);
 		console.log('***', notes)
