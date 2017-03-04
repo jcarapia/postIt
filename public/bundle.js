@@ -69,7 +69,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _reducers = __webpack_require__(202);
+	var _reducers = __webpack_require__(206);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -21828,19 +21828,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _header = __webpack_require__(205);
+	var _header = __webpack_require__(201);
 
 	var _header2 = _interopRequireDefault(_header);
 
-	var _note = __webpack_require__(206);
+	var _note = __webpack_require__(203);
 
 	var _note2 = _interopRequireDefault(_note);
 
-	var _addModal = __webpack_require__(208);
+	var _addModal = __webpack_require__(204);
 
 	var _addModal2 = _interopRequireDefault(_addModal);
 
-	var _saveModal = __webpack_require__(209);
+	var _saveModal = __webpack_require__(205);
 
 	var _saveModal2 = _interopRequireDefault(_saveModal);
 
@@ -21870,7 +21870,7 @@
 	        _react2.default.createElement(_header2.default, null),
 	        _react2.default.createElement(_note2.default, null),
 	        _react2.default.createElement(_note2.default, null),
-	        _react2.default.createElement(_saveModal2.default, null)
+	        _react2.default.createElement(_addModal2.default, null)
 	      );
 	    }
 	  }]);
@@ -21881,32 +21881,7 @@
 	exports.default = App;
 
 /***/ },
-/* 201 */,
-/* 202 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _redux = __webpack_require__(167);
-
-	var rootReducer = (0, _redux.combineReducers)({
-	  state: function state() {
-	    var _state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-	    return _state;
-	  }
-	});
-
-	exports.default = rootReducer;
-
-/***/ },
-/* 203 */,
-/* 204 */,
-/* 205 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21925,7 +21900,7 @@
 
 	var _redux = __webpack_require__(167);
 
-	var _index = __webpack_require__(210);
+	var _index = __webpack_require__(202);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21983,7 +21958,36 @@
 	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Header);
 
 /***/ },
-/* 206 */
+/* 202 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.closeAddModal = closeAddModal;
+	exports.openAddModal = openAddModal;
+	var OPEN_MODAL = exports.OPEN_MODAL = 'OPEN_MODAL';
+	var CLOSE_MODAL = exports.CLOSE_MODAL = 'CLOSE_MODAL';
+
+	function closeAddModal() {
+		console.log('closing modal');
+		return {
+			type: CLOSE_MODAL,
+			payload: 'close'
+		};
+	}
+
+	function openAddModal() {
+		return {
+			type: OPEN_MODAL,
+			payload: 'open'
+		};
+	}
+
+/***/ },
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22047,14 +22051,13 @@
 	exports.default = Note;
 
 /***/ },
-/* 207 */,
-/* 208 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-			value: true
+		value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -22062,6 +22065,12 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _redux = __webpack_require__(167);
+
+	var _index = __webpack_require__(202);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22072,55 +22081,90 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var AddModal = function (_Component) {
-			_inherits(AddModal, _Component);
+		_inherits(AddModal, _Component);
 
-			function AddModal() {
-					_classCallCheck(this, AddModal);
+		function AddModal(props) {
+			_classCallCheck(this, AddModal);
 
-					return _possibleConstructorReturn(this, (AddModal.__proto__ || Object.getPrototypeOf(AddModal)).apply(this, arguments));
+			var _this = _possibleConstructorReturn(this, (AddModal.__proto__ || Object.getPrototypeOf(AddModal)).call(this, props));
+
+			_this.state = { status: 'close' };
+			return _this;
+		}
+
+		_createClass(AddModal, [{
+			key: 'handleCancel',
+			value: function handleCancel() {
+				this.props.closeAddModal();
 			}
+		}, {
+			key: 'handleNewNote',
+			value: function handleNewNote() {
+				console.log('new note');
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
 
-			_createClass(AddModal, [{
-					key: "render",
-					value: function render() {
-							return _react2.default.createElement(
-									"div",
-									{ className: "note-modal" },
-									_react2.default.createElement(
-											"ul",
-											{ className: "palette group" },
-											_react2.default.createElement("li", { id: "red" }),
-											_react2.default.createElement("li", { id: "green" }),
-											_react2.default.createElement("li", { id: "yellow" }),
-											_react2.default.createElement("li", { id: "blue" })
-									),
-									_react2.default.createElement("input", { type: "text", placeholder: "Untitled" }),
-									_react2.default.createElement("textarea", { placeholder: "Just start typing here" }),
-									_react2.default.createElement(
-											"div",
-											{ className: "modal-footer" },
-											_react2.default.createElement(
-													"button",
-													{ className: "btn btn-cancel" },
-													"Cancel"
-											),
-											_react2.default.createElement(
-													"button",
-													{ className: "btn btn-add" },
-													"Add"
-											)
-									)
-							);
-					}
-			}]);
+				console.log('***', this.props.addModal[0]);
 
-			return AddModal;
+				if (this.props.addModal[0] === 'open') {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'note-modal' },
+						_react2.default.createElement(
+							'ul',
+							{ className: 'palette group' },
+							_react2.default.createElement('li', { id: 'red' }),
+							_react2.default.createElement('li', { id: 'green' }),
+							_react2.default.createElement('li', { id: 'yellow' }),
+							_react2.default.createElement('li', { id: 'blue' })
+						),
+						_react2.default.createElement('input', { type: 'text', placeholder: this.props.addModal[0] }),
+						_react2.default.createElement('textarea', { placeholder: 'Just start typing here' }),
+						_react2.default.createElement(
+							'div',
+							{ className: 'modal-footer' },
+							_react2.default.createElement(
+								'button',
+								{ className: 'btn btn-cancel', onClick: function onClick() {
+										return _this2.handleCancel();
+									} },
+								'Cancel'
+							),
+							_react2.default.createElement(
+								'button',
+								{ className: 'btn btn-add', onClick: function onClick() {
+										return _this2.handleNewNote();
+									} },
+								'Add'
+							)
+						)
+					);
+				} else {
+					return _react2.default.createElement('div', null);
+				}
+			}
+		}]);
+
+		return AddModal;
 	}(_react.Component);
 
-	exports.default = AddModal;
+	function mapDispatchToProps(dispatch) {
+		return (0, _redux.bindActionCreators)({ closeAddModal: _index.closeAddModal }, dispatch);
+	};
+
+	function mapStateToProps(_ref) {
+		var addModal = _ref.addModal;
+
+		return { addModal: addModal };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddModal);
 
 /***/ },
-/* 209 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22192,32 +22236,60 @@
 	exports.default = SaveModal;
 
 /***/ },
-/* 210 */
-/***/ function(module, exports) {
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _redux = __webpack_require__(167);
+
+	var _add_modal_reducer = __webpack_require__(207);
+
+	var _add_modal_reducer2 = _interopRequireDefault(_add_modal_reducer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var rootReducer = (0, _redux.combineReducers)({
+	  // state: (state = {}) => state
+	  addModal: _add_modal_reducer2.default
+
+	});
+
+	exports.default = rootReducer;
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.openAddModal = openAddModal;
-	exports.closeAddModal = closeAddModal;
-	var ADD_MODAL = exports.ADD_MODAL = 'ADD_MODAL';
 
-	function openAddModal() {
-		console.log('hello');
-		return {
-			type: ADD_MODAL,
-			payload: 'open'
-		};
-	}
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['close'];
+		var action = arguments[1];
 
-	function closeAddModal() {
-		return {
-			type: CLOSE_MODAL,
-			payload: 'close'
-		};
-	}
+		console.log(action);
+		switch (action.type) {
+			case _index.CLOSE_MODAL:
+				return [action.payload];
+			case _index.OPEN_MODAL:
+				console.log('in the reducer');
+				return [action.payload];
+		}
+
+		return state;
+	};
+
+	var _index = __webpack_require__(202);
+
+	;
 
 /***/ }
 /******/ ]);

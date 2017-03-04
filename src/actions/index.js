@@ -1,16 +1,17 @@
-export const ADD_MODAL = 'ADD_MODAL';
-
-export function openAddModal() {
-	console.log('hello')
-	return {
-		type: ADD_MODAL,
-		payload: 'open'
-	}
-}
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
 
 export function closeAddModal() {
+	console.log('closing modal')
 	return {
 		type: CLOSE_MODAL,
 		payload: 'close'
+	}
+}
+
+export function openAddModal() {
+	return {
+		type: OPEN_MODAL,
+		payload: 'open'
 	}
 }
