@@ -4,6 +4,7 @@ export const ADD_NOTE = 'ADD_NOTE';
 export const GET_NOTES= 'GET_NOTES';
 export const OPEN_EDIT_MODAL = 'OPEN_EDIT_MODAL';
 export const CLOSE_EDIT_MODAL = 'CLOSE_EDIT_MODAL';
+export const EDIT_NOTE = 'EDIT_NOTE';
 
 export function closeAddModal() {
 	return {
@@ -60,3 +61,25 @@ export function addNote(note) {
 		payload: notesArray
 	}
 }
+
+export function editNote(title, text, id) {
+	let notes = localStorage.getItem('notes');
+	let notesArray = JSON.parse(notes);
+
+	for(var i = 0; i < notesArray.length; i++) {
+		if(notesArray[i].id === id){
+			notesArray[i].title = title;
+			notesArray[i].text = text;
+		}
+	}
+	
+	localStorage.setItem('notes', JSON.stringify(notesArray));
+
+	return {
+		type: EDIT_NOTE,
+		payload: 'test'
+	}
+}
+
+
+

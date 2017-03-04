@@ -20,7 +20,7 @@ class Board extends Component {
 			return notes.map(function(note, index) {
 				const title = note.title;
 				const text = note.text;
-				const id = index;
+				const id = note.id
 
 				return (
 					<Note title={title} text={text} id={id} key={id}/>

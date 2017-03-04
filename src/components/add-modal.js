@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import uniqid from 'uniqid';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -28,7 +29,8 @@ class AddModal extends Component {
 	}
 
 	handleSubmit() {
-		let note = {title: this.state.title, text: this.state.text};
+		let id = uniqid();
+		let note = {title: this.state.title, text: this.state.text, id: id};
 		this.props.addNote(note);
 		this.props.closeAddModal();
 	}

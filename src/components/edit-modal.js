@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {closeEditModal} from '../actions/index'; //change to close edit modal
-// import {addNote} from '../actions/index'; //change to edit note
+import {closeEditModal} from '../actions/index'; 
+import {editNote} from '../actions/index'; 
+import {getNotes} from '../actions/index';
 
 
 class EditModal extends Component {
@@ -16,11 +17,11 @@ class EditModal extends Component {
 	}
 
 	onTitleChange(e) {
-		//this.setState({title: e.target.value})
+		this.setState({title: e.target.value})
 	}
 
 	onTextChange(e) {
-		//this.setState({text: e.target.value})
+		this.setState({text: e.target.value})
 	}
 
 	handleCancel() {
@@ -28,9 +29,15 @@ class EditModal extends Component {
 	}
 
 	handleSubmit() {
-		//let note = {title: this.state.title, text: this.state.text};
-		//this.props.addNote(note);
-		//this.props.closeAddModal();
+		let id = this.props.editModal.id;
+		let title = this.state.title;
+		let text = this.state.text;
+
+		if(!title) {title = this.props.editModal.title};
+		if(!text) {text = this.props.editModal.text};	
+		this.props.editNote(title, text, id);
+		this.props.closeEditModal();
+		this.props.getNotes();
 	}
 
   render() {
@@ -50,7 +57,7 @@ class EditModal extends Component {
 		  			<li id="blue"></li>	
 		  		</ul>
 
-		  		<input type="text" placeholder="Untitled" value={title} onChange={this.onTitleChange.bind(this)} />
+		  		<input type="text" placeholder="Untitled" defaultValue={title} onChange={this.onTitleChange.bind(this)} />
 
 		  		<textarea placeholder="Just start typing here" onChange={this.onTextChange.bind(this)}>{text}</textarea>
 
@@ -70,7 +77,7 @@ class EditModal extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({closeEditModal}, dispatch);
+	return bindActionCreators({closeEditModal, editNote, getNotes}, dispatch);
 };
 
 function mapStateToProps({editModal}) {

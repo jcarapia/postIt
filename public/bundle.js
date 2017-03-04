@@ -21977,12 +21977,14 @@
 	exports.closeEditModal = closeEditModal;
 	exports.getNotes = getNotes;
 	exports.addNote = addNote;
+	exports.editNote = editNote;
 	var OPEN_MODAL = exports.OPEN_MODAL = 'OPEN_MODAL';
 	var CLOSE_MODAL = exports.CLOSE_MODAL = 'CLOSE_MODAL';
 	var ADD_NOTE = exports.ADD_NOTE = 'ADD_NOTE';
 	var GET_NOTES = exports.GET_NOTES = 'GET_NOTES';
 	var OPEN_EDIT_MODAL = exports.OPEN_EDIT_MODAL = 'OPEN_EDIT_MODAL';
 	var CLOSE_EDIT_MODAL = exports.CLOSE_EDIT_MODAL = 'CLOSE_EDIT_MODAL';
+	var EDIT_NOTE = exports.EDIT_NOTE = 'EDIT_NOTE';
 
 	function closeAddModal() {
 		return {
@@ -22040,6 +22042,25 @@
 		return {
 			type: ADD_NOTE,
 			payload: notesArray
+		};
+	}
+
+	function editNote(title, text, id) {
+		var notes = localStorage.getItem('notes');
+		var notesArray = JSON.parse(notes);
+
+		for (var i = 0; i < notesArray.length; i++) {
+			if (notesArray[i].id === id) {
+				notesArray[i].title = title;
+				notesArray[i].text = text;
+			}
+		}
+
+		localStorage.setItem('notes', JSON.stringify(notesArray));
+
+		return {
+			type: EDIT_NOTE,
+			payload: 'test'
 		};
 	}
 
@@ -22146,6 +22167,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _uniqid = __webpack_require__(212);
+
+	var _uniqid2 = _interopRequireDefault(_uniqid);
+
 	var _reactRedux = __webpack_require__(160);
 
 	var _redux = __webpack_require__(167);
@@ -22193,7 +22218,8 @@
 		}, {
 			key: 'handleSubmit',
 			value: function handleSubmit() {
-				var note = { title: this.state.title, text: this.state.text };
+				var id = (0, _uniqid2.default)();
+				var note = { title: this.state.title, text: this.state.text, id: id };
 				this.props.addNote(note);
 				this.props.closeAddModal();
 			}
@@ -22316,7 +22342,7 @@
 					return notes.map(function (note, index) {
 						var title = note.title;
 						var text = note.text;
-						var id = index;
+						var id = note.id;
 
 						return _react2.default.createElement(_note2.default, { title: title, text: text, id: id, key: id });
 					});
@@ -22506,10 +22532,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	//change to close edit modal
-	// import {addNote} from '../actions/index'; //change to edit note
-
-
 	var EditModal = function (_Component) {
 		_inherits(EditModal, _Component);
 
@@ -22528,12 +22550,12 @@
 		_createClass(EditModal, [{
 			key: 'onTitleChange',
 			value: function onTitleChange(e) {
-				//this.setState({title: e.target.value})
+				this.setState({ title: e.target.value });
 			}
 		}, {
 			key: 'onTextChange',
 			value: function onTextChange(e) {
-				//this.setState({text: e.target.value})
+				this.setState({ text: e.target.value });
 			}
 		}, {
 			key: 'handleCancel',
@@ -22543,9 +22565,19 @@
 		}, {
 			key: 'handleSubmit',
 			value: function handleSubmit() {
-				//let note = {title: this.state.title, text: this.state.text};
-				//this.props.addNote(note);
-				//this.props.closeAddModal();
+				var id = this.props.editModal.id;
+				var title = this.state.title;
+				var text = this.state.text;
+
+				if (!title) {
+					title = this.props.editModal.title;
+				};
+				if (!text) {
+					text = this.props.editModal.text;
+				};
+				this.props.editNote(title, text, id);
+				this.props.closeEditModal();
+				this.props.getNotes();
 			}
 		}, {
 			key: 'render',
@@ -22568,7 +22600,7 @@
 							_react2.default.createElement('li', { id: 'yellow' }),
 							_react2.default.createElement('li', { id: 'blue' })
 						),
-						_react2.default.createElement('input', { type: 'text', placeholder: 'Untitled', value: title, onChange: this.onTitleChange.bind(this) }),
+						_react2.default.createElement('input', { type: 'text', placeholder: 'Untitled', defaultValue: title, onChange: this.onTitleChange.bind(this) }),
 						_react2.default.createElement(
 							'textarea',
 							{ placeholder: 'Just start typing here', onChange: this.onTextChange.bind(this) },
@@ -22603,7 +22635,7 @@
 	}(_react.Component);
 
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ closeEditModal: _index.closeEditModal }, dispatch);
+		return (0, _redux.bindActionCreators)({ closeEditModal: _index.closeEditModal, editNote: _index.editNote, getNotes: _index.getNotes }, dispatch);
 	};
 
 	function mapStateToProps(_ref) {
@@ -22613,6 +22645,50 @@
 	}
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditModal);
+
+/***/ },
+/* 212 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process, module) {/* 
+	(The MIT License)
+	Copyright (c) 2014 Halász Ádám <mail@adamhalasz.com>
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+	The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	*/
+
+	//  Unique Hexatridecimal ID Generator
+	// ================================================
+
+	//  Dependencies
+	// ================================================
+	var pid = process && process.pid ? process.pid.toString(36) : '' ;
+	var mac =  false ? require('macaddress').one(macHandler) : null ;
+	var address = mac ? parseInt(mac.replace(/\:|\D+/gi, '')).toString(36) : '' ;
+
+	//  Exports
+	// ================================================
+	module.exports         = function(prefix){ return (prefix || '') + address + pid + now().toString(36); }
+	module.exports.process = function(prefix){ return (prefix || '')           + pid + now().toString(36); }
+	module.exports.time    = function(prefix){ return (prefix || '')                 + now().toString(36); }
+
+	//  Helpers
+	// ================================================
+	function now(){
+	    var time = Date.now();
+	    var last = now.last || time;
+	    return now.last = time > last ? time : last + 1;
+	}
+
+	function macHandler(error){
+	    if(module.parent && module.parent.uniqid_debug){
+	        if(error) console.error('Info: No mac address - uniqid() falls back to uniqid.process().', error)
+	        if(pid == '') console.error('Info: No process.pid - uniqid.process() falls back to uniqid.time().')
+	    }
+	}
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(181)(module)))
 
 /***/ }
 /******/ ]);
