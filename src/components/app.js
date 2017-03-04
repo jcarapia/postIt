@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Header from './header';
 import Note from './note';
 import AddModal from './add-modal';
-import SaveModal from './save-modal';
+import EditModal from './edit-modal';
 import Board from './board';
 
 export default class App extends Component {
@@ -16,6 +16,7 @@ export default class App extends Component {
       <Header />
       <Board />
       <AddModal />
+      <EditModal />
       </div>
     );
   }

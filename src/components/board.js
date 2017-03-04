@@ -12,26 +12,23 @@ class Board extends Component {
 	}
 
 	renderNotes() {
-		// let notes = localStorage.getItem('notes')
-		// notes = JSON.parse(notes);
 
-		console.log('the board state', this.props.board);
 		let notes = this.props.board;
 
 		//let notes = [{title: 'Sample Note 1', text: 'this is the text 1'}, {title: 'Sample Note 2', text: 'this is the text 2'}, {title: 'Sample Note 3', text: 'this is the text 3'}]
 		if(notes){
-			return notes.map(function(note) {
+			return notes.map(function(note, index) {
 				const title = note.title;
 				const text = note.text;
+				const id = index;
 
 				return (
-					<Note title={title} text={text} key={title}/>
+					<Note title={title} text={text} id={id} key={id}/>
 				)
 			});
 		} else {
 			return (<div></div>)
 		}
-		
 	}
 
   render() {

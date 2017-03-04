@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import AddModalReducer from './add_modal_reducer';
 import BoardReducer from './board_reducer'
+import EditModalReducer from './edit_modal_reducer';
 
 const rootReducer = combineReducers({
-  // state: (state = {}) => state
   addModal: AddModalReducer,
-  board: BoardReducer
-
+  board: BoardReducer,
+  editModal: EditModalReducer
 });
 
 export default rootReducer;
