@@ -79,6 +79,12 @@ ul {
 	border-radius: 5px;
 }
 
+.note.red {border-color: #ffa07a;}
+.note.green {border-color: #2ecc71;}
+.note.yellow {border-color: #e67e22;}
+.note.blue {border-color: #2980b9;}
+
+
 .note h5 {
 	padding: 5%;
 	border-bottom: 2px solid #bdc3c7;
@@ -116,6 +122,11 @@ ul {
 	border-radius: 8px;
 }
 
+.note-modal.red {border-color: #ffa07a;}
+.note-modal.green {border-color: #2ecc71;}
+.note-modal.yellow {border-color: #e67e22;}
+.note-modal.blue {border-color: #2980b9;}
+
 .note-modal ul {
 	margin-top: 20px;
 	margin-left: 15px;
@@ -134,10 +145,10 @@ ul {
 	position: relative;
 }
 
-#red {background-color: red;}
-#green {background-color: green;}
-#yellow {background-color: yellow;}
-#blue {background-color: blue;}
+#red {background-color: #ffa07a;}
+#green {background-color: #2ecc71;}
+#yellow {background-color: #e67e22;}
+#blue {background-color: #2980b9;}
 
 .note-modal input {
 	margin-left: 15px;

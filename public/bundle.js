@@ -22154,7 +22154,8 @@
 				var title = this.props.title;
 				var text = this.props.text;
 				var id = this.props.id;
-				this.props.openEditModal({ title: title, text: text, id: id });
+				var color = this.props.color;
+				this.props.openEditModal({ title: title, text: text, color: color, id: id });
 			}
 		}, {
 			key: 'deleteNote',
@@ -22169,7 +22170,7 @@
 
 				return _react2.default.createElement(
 					'div',
-					{ className: 'note' },
+					{ className: "note " + this.props.color },
 					_react2.default.createElement(
 						'h5',
 						null,
@@ -22249,7 +22250,8 @@
 
 			_this.state = { status: 'close',
 				title: '',
-				text: ''
+				text: '',
+				color: 'blue'
 			};
 			return _this;
 		}
@@ -22273,9 +22275,14 @@
 			key: 'handleSubmit',
 			value: function handleSubmit() {
 				var id = (0, _uniqid2.default)();
-				var note = { title: this.state.title, text: this.state.text, id: id };
+				var note = { title: this.state.title, text: this.state.text, color: this.state.color, id: id };
 				this.props.addNote(note);
 				this.props.closeAddModal();
+			}
+		}, {
+			key: 'setColor',
+			value: function setColor(color) {
+				this.setState({ color: color });
 			}
 		}, {
 			key: 'render',
@@ -22285,14 +22292,22 @@
 				if (this.props.addModal[0] === 'open') {
 					return _react2.default.createElement(
 						'div',
-						{ className: 'note-modal' },
+						{ className: "note-modal " + this.state.color },
 						_react2.default.createElement(
 							'ul',
 							{ className: 'palette group' },
-							_react2.default.createElement('li', { id: 'red' }),
-							_react2.default.createElement('li', { id: 'green' }),
-							_react2.default.createElement('li', { id: 'yellow' }),
-							_react2.default.createElement('li', { id: 'blue' })
+							_react2.default.createElement('li', { id: 'red', onClick: function onClick() {
+									return _this2.setColor('red');
+								} }),
+							_react2.default.createElement('li', { id: 'green', onClick: function onClick() {
+									return _this2.setColor('green');
+								} }),
+							_react2.default.createElement('li', { id: 'yellow', onClick: function onClick() {
+									return _this2.setColor('yellow');
+								} }),
+							_react2.default.createElement('li', { id: 'blue', onClick: function onClick() {
+									return _this2.setColor('blue');
+								} })
 						),
 						_react2.default.createElement('input', { type: 'text', placeholder: 'Untitled', onChange: this.onTitleChange.bind(this) }),
 						_react2.default.createElement('textarea', { placeholder: 'Just start typing here', onChange: this.onTextChange.bind(this) }),
@@ -22422,7 +22437,8 @@
 
 			_this.state = { status: 'close',
 				title: '',
-				text: ''
+				text: '',
+				color: ''
 			};
 			return _this;
 		}
@@ -22443,11 +22459,17 @@
 				this.props.closeEditModal();
 			}
 		}, {
+			key: 'setColor',
+			value: function setColor(color) {
+				this.setState({ color: color });
+			}
+		}, {
 			key: 'handleSubmit',
 			value: function handleSubmit() {
 				var id = this.props.editModal.id;
 				var title = this.state.title;
 				var text = this.state.text;
+				var color = this.state.color;
 
 				if (!title) {
 					title = this.props.editModal.title;
@@ -22455,6 +22477,9 @@
 				if (!text) {
 					text = this.props.editModal.text;
 				};
+				if (!color) {
+					color = this.props.editModal.color;
+				}
 				this.props.editNote(title, text, id);
 				this.props.closeEditModal();
 				this.props.getNotes();
@@ -22468,17 +22493,26 @@
 
 					var title = this.props.editModal.title;
 					var text = this.props.editModal.text;
+					var color = this.props.editModal.color;
 
 					return _react2.default.createElement(
 						'div',
-						{ className: 'note-modal' },
+						{ className: "note-modal " + color },
 						_react2.default.createElement(
 							'ul',
 							{ className: 'palette group' },
-							_react2.default.createElement('li', { id: 'red' }),
-							_react2.default.createElement('li', { id: 'green' }),
-							_react2.default.createElement('li', { id: 'yellow' }),
-							_react2.default.createElement('li', { id: 'blue' })
+							_react2.default.createElement('li', { id: 'red', onClick: function onClick() {
+									return _this2.setColor('red');
+								} }),
+							_react2.default.createElement('li', { id: 'green', onClick: function onClick() {
+									return _this2.setColor('green');
+								} }),
+							_react2.default.createElement('li', { id: 'yellow', onClick: function onClick() {
+									return _this2.setColor('yellow');
+								} }),
+							_react2.default.createElement('li', { id: 'blue', onClick: function onClick() {
+									return _this2.setColor('blue');
+								} })
 						),
 						_react2.default.createElement('input', { type: 'text', placeholder: 'Untitled', defaultValue: title, onChange: this.onTitleChange.bind(this) }),
 						_react2.default.createElement(
@@ -22698,9 +22732,10 @@
 					return notes.map(function (note, index) {
 						var title = note.title;
 						var text = note.text;
+						var color = note.color;
 						var id = note.id;
 
-						return _react2.default.createElement(_note2.default, { title: title, text: text, id: id, key: id });
+						return _react2.default.createElement(_note2.default, { title: title, text: text, color: color, id: id, key: id });
 					});
 				} else {
 					return _react2.default.createElement('div', null);
@@ -22851,8 +22886,9 @@
 			case _index.OPEN_EDIT_MODAL:
 				var title = action.payload.title;
 				var text = action.payload.text;
+				var color = action.payload.color;
 				var id = action.payload.id;
-				return { status: 'open', title: title, text: text, id: id };
+				return { status: 'open', title: title, text: text, color: color, id: id };
 			case _index.CLOSE_EDIT_MODAL:
 				return { status: 'close' };
 		}

@@ -12,7 +12,8 @@ class AddModal extends Component {
 		super(props);
 		this.state = {status: 'close',
 									title: '',
-									text: ''
+									text: '',
+									color: 'blue'
 								}
 	}
 
@@ -30,22 +31,26 @@ class AddModal extends Component {
 
 	handleSubmit() {
 		let id = uniqid();
-		let note = {title: this.state.title, text: this.state.text, id: id};
+		let note = {title: this.state.title, text: this.state.text, color: this.state.color, id: id};
 		this.props.addNote(note);
 		this.props.closeAddModal();
+	}
+
+	setColor(color) {
+		this.setState({color: color});
 	}
 
   render() {
 
   	if(this.props.addModal[0] === 'open'){
   		return (
-	      <div className="note-modal">
+	      <div className={"note-modal " + this.state.color}>
 
 		  		<ul className="palette group">
-		  			<li id="red"></li>
-		  			<li id="green"></li>
-		  			<li id="yellow"></li>
-		  			<li id="blue"></li>	
+		  			<li id="red" onClick={() => this.setColor('red')}></li>
+		  			<li id="green" onClick={() => this.setColor('green')}></li>
+		  			<li id="yellow" onClick={() => this.setColor('yellow')}></li>
+		  			<li id="blue" onClick={() => this.setColor('blue')}></li>	
 		  		</ul>
 
 		  		<input type="text" placeholder="Untitled" onChange={this.onTitleChange.bind(this)} />

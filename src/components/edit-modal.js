@@ -12,7 +12,8 @@ class EditModal extends Component {
 		super(props);
 		this.state = {status: 'close',
 									title: '',
-									text: ''
+									text: '',
+									color: ''
 								}
 	}
 
@@ -28,13 +29,19 @@ class EditModal extends Component {
 		this.props.closeEditModal();
 	}
 
+	setColor(color) {
+		this.setState({color: color});
+	}
+
 	handleSubmit() {
 		let id = this.props.editModal.id;
 		let title = this.state.title;
 		let text = this.state.text;
+		let color = this.state.color;
 
 		if(!title) {title = this.props.editModal.title};
 		if(!text) {text = this.props.editModal.text};	
+		if(!color) {color = this.props.editModal.color}
 		this.props.editNote(title, text, id);
 		this.props.closeEditModal();
 		this.props.getNotes();
@@ -46,15 +53,16 @@ class EditModal extends Component {
 
   		let title = this.props.editModal.title;
   		let text = this.props.editModal.text;
+  		let color = this.props.editModal.color;
 
   		return (
-	      <div className="note-modal">
+	      <div className={"note-modal " + color}>
 
 		  		<ul className="palette group">
-		  			<li id="red"></li>
-		  			<li id="green"></li>
-		  			<li id="yellow"></li>
-		  			<li id="blue"></li>	
+		  			<li id="red" onClick={() => this.setColor('red')}></li>
+		  			<li id="green" onClick={() => this.setColor('green')}></li>
+		  			<li id="yellow" onClick={() => this.setColor('yellow')}></li>
+		  			<li id="blue" onClick={() => this.setColor('blue')}></li>	
 		  		</ul>
 
 		  		<input type="text" placeholder="Untitled" defaultValue={title} onChange={this.onTitleChange.bind(this)} />

@@ -10,7 +10,8 @@ class Note extends Component {
 		let title = this.props.title;
 		let text = this.props.text;
 		let id = this.props.id;
-		this.props.openEditModal({title, text, id});
+		let color = this.props.color;
+		this.props.openEditModal({title, text, color, id});
 	}
 
 	deleteNote() {
@@ -20,7 +21,7 @@ class Note extends Component {
 
   render() {	
     return (
-      <div className="note">
+      <div className={"note " + this.props.color}>
       	<h5>{this.props.title}
       		<i className="fa fa-trash" aria-hidden="true" onClick={() => this.deleteNote()}></i>
       		<i className="fa fa-pencil" aria-hidden="true" onClick={() => this.editNote()}></i>

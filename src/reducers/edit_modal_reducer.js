@@ -6,8 +6,9 @@ export default function(state = {status:'close', title:'', text:'', id:''}, acti
 		case OPEN_EDIT_MODAL: 
 			let title = action.payload.title;
 			let text = action.payload.text;
+			let color = action.payload.color;
 			let id = action.payload.id;
-			return {status: 'open', title, text, id};
+			return {status: 'open', title, text, color, id};
 		case CLOSE_EDIT_MODAL:
 			return {status: 'close' }
 	}
