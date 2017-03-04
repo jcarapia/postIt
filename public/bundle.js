@@ -69,7 +69,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _reducers = __webpack_require__(207);
+	var _reducers = __webpack_require__(209);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -21840,11 +21840,15 @@
 
 	var _addModal2 = _interopRequireDefault(_addModal);
 
-	var _editModal = __webpack_require__(211);
+	var _editModal = __webpack_require__(206);
 
 	var _editModal2 = _interopRequireDefault(_editModal);
 
-	var _board = __webpack_require__(206);
+	var _deleteModal = __webpack_require__(207);
+
+	var _deleteModal2 = _interopRequireDefault(_deleteModal);
+
+	var _board = __webpack_require__(208);
 
 	var _board2 = _interopRequireDefault(_board);
 
@@ -21875,7 +21879,8 @@
 	        _react2.default.createElement(_header2.default, null),
 	        _react2.default.createElement(_board2.default, null),
 	        _react2.default.createElement(_addModal2.default, null),
-	        _react2.default.createElement(_editModal2.default, null)
+	        _react2.default.createElement(_editModal2.default, null),
+	        _react2.default.createElement(_deleteModal2.default, null)
 	      );
 	    }
 	  }]);
@@ -21975,8 +21980,11 @@
 	exports.openAddModal = openAddModal;
 	exports.openEditModal = openEditModal;
 	exports.closeEditModal = closeEditModal;
+	exports.openDeleteModal = openDeleteModal;
+	exports.closeDeleteModal = closeDeleteModal;
 	exports.getNotes = getNotes;
 	exports.addNote = addNote;
+	exports.deleteNote = deleteNote;
 	exports.editNote = editNote;
 	var OPEN_MODAL = exports.OPEN_MODAL = 'OPEN_MODAL';
 	var CLOSE_MODAL = exports.CLOSE_MODAL = 'CLOSE_MODAL';
@@ -21985,6 +21993,9 @@
 	var OPEN_EDIT_MODAL = exports.OPEN_EDIT_MODAL = 'OPEN_EDIT_MODAL';
 	var CLOSE_EDIT_MODAL = exports.CLOSE_EDIT_MODAL = 'CLOSE_EDIT_MODAL';
 	var EDIT_NOTE = exports.EDIT_NOTE = 'EDIT_NOTE';
+	var OPEN_DELETE_MODAL = exports.OPEN_DELETE_MODAL = 'OPEN_DELETE_MODAL';
+	var CLOSE_DELETE_MODAL = exports.CLOSE_DELETE_MODAL = 'CLOSE_DELETE_MODAL';
+	var DELETE_NOTE = exports.DELETE_NOTE = 'DELETE_NOTE';
 
 	function closeAddModal() {
 		return {
@@ -22001,7 +22012,6 @@
 	}
 
 	function openEditModal(note) {
-		//let test = {title: 'title', text: 'text', id:'id'}
 		return {
 			type: OPEN_EDIT_MODAL,
 			payload: note
@@ -22012,6 +22022,22 @@
 		console.log('closing modal');
 		return {
 			type: CLOSE_EDIT_MODAL,
+			payload: 'close'
+		};
+	}
+
+	function openDeleteModal(noteId) {
+
+		return {
+			type: OPEN_DELETE_MODAL,
+			payload: noteId
+		};
+	}
+
+	function closeDeleteModal() {
+		console.log('close action');
+		return {
+			type: CLOSE_DELETE_MODAL,
 			payload: 'close'
 		};
 	}
@@ -22042,6 +22068,25 @@
 		return {
 			type: ADD_NOTE,
 			payload: notesArray
+		};
+	}
+
+	function deleteNote(noteId) {
+		var notes = localStorage.getItem('notes');
+		var notesArray = JSON.parse(notes);
+
+		for (var i = 0; i < notesArray.length; i++) {
+			if (notesArray[i].id === noteId) {
+				notesArray.splice(i, 1);
+				break;
+			}
+		};
+
+		localStorage.setItem('notes', JSON.stringify(notesArray));
+
+		return {
+			type: DELETE_NOTE,
+			payload: 'test'
 		};
 	}
 
@@ -22112,6 +22157,12 @@
 				this.props.openEditModal({ title: title, text: text, id: id });
 			}
 		}, {
+			key: 'deleteNote',
+			value: function deleteNote() {
+				var id = this.props.id;
+				this.props.openDeleteModal(id);
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				var _this2 = this;
@@ -22124,7 +22175,9 @@
 						'h5',
 						null,
 						this.props.title,
-						_react2.default.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' }),
+						_react2.default.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true', onClick: function onClick() {
+								return _this2.deleteNote();
+							} }),
 						_react2.default.createElement('i', { className: 'fa fa-pencil', 'aria-hidden': 'true', onClick: function onClick() {
 								return _this2.editNote();
 							} })
@@ -22146,7 +22199,7 @@
 	}(_react.Component);
 
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ openEditModal: _index.openEditModal }, dispatch);
+		return (0, _redux.bindActionCreators)({ openEditModal: _index.openEditModal, openDeleteModal: _index.openDeleteModal }, dispatch);
 	};
 
 	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Note);
@@ -22167,7 +22220,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _uniqid = __webpack_require__(212);
+	var _uniqid = __webpack_require__(205);
 
 	var _uniqid2 = _interopRequireDefault(_uniqid);
 
@@ -22283,227 +22336,51 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddModal);
 
 /***/ },
-/* 205 */,
-/* 206 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process, module) {/* 
+	(The MIT License)
+	Copyright (c) 2014 Halász Ádám <mail@adamhalasz.com>
+	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+	The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+	*/
 
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
+	//  Unique Hexatridecimal ID Generator
+	// ================================================
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	//  Dependencies
+	// ================================================
+	var pid = process && process.pid ? process.pid.toString(36) : '' ;
+	var mac =  false ? require('macaddress').one(macHandler) : null ;
+	var address = mac ? parseInt(mac.replace(/\:|\D+/gi, '')).toString(36) : '' ;
 
-	var _react = __webpack_require__(2);
+	//  Exports
+	// ================================================
+	module.exports         = function(prefix){ return (prefix || '') + address + pid + now().toString(36); }
+	module.exports.process = function(prefix){ return (prefix || '')           + pid + now().toString(36); }
+	module.exports.time    = function(prefix){ return (prefix || '')                 + now().toString(36); }
 
-	var _react2 = _interopRequireDefault(_react);
-
-	var _note = __webpack_require__(203);
-
-	var _note2 = _interopRequireDefault(_note);
-
-	var _redux = __webpack_require__(167);
-
-	var _reactRedux = __webpack_require__(160);
-
-	var _index = __webpack_require__(202);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Board = function (_Component) {
-		_inherits(Board, _Component);
-
-		function Board() {
-			_classCallCheck(this, Board);
-
-			return _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).apply(this, arguments));
-		}
-
-		_createClass(Board, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				this.props.getNotes();
-			}
-		}, {
-			key: 'renderNotes',
-			value: function renderNotes() {
-
-				var notes = this.props.board;
-
-				//let notes = [{title: 'Sample Note 1', text: 'this is the text 1'}, {title: 'Sample Note 2', text: 'this is the text 2'}, {title: 'Sample Note 3', text: 'this is the text 3'}]
-				if (notes) {
-					return notes.map(function (note, index) {
-						var title = note.title;
-						var text = note.text;
-						var id = note.id;
-
-						return _react2.default.createElement(_note2.default, { title: title, text: text, id: id, key: id });
-					});
-				} else {
-					return _react2.default.createElement('div', null);
-				}
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-
-				return _react2.default.createElement(
-					'div',
-					{ className: 'board' },
-					this.renderNotes()
-				);
-			}
-		}]);
-
-		return Board;
-	}(_react.Component);
-
-	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ getNotes: _index.getNotes }, dispatch);
-	};
-
-	function mapStateToProps(_ref) {
-		var board = _ref.board;
-
-		return { board: board };
+	//  Helpers
+	// ================================================
+	function now(){
+	    var time = Date.now();
+	    var last = now.last || time;
+	    return now.last = time > last ? time : last + 1;
 	}
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Board);
+	function macHandler(error){
+	    if(module.parent && module.parent.uniqid_debug){
+	        if(error) console.error('Info: No mac address - uniqid() falls back to uniqid.process().', error)
+	        if(pid == '') console.error('Info: No process.pid - uniqid.process() falls back to uniqid.time().')
+	    }
+	}
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(181)(module)))
 
 /***/ },
-/* 207 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _redux = __webpack_require__(167);
-
-	var _add_modal_reducer = __webpack_require__(208);
-
-	var _add_modal_reducer2 = _interopRequireDefault(_add_modal_reducer);
-
-	var _board_reducer = __webpack_require__(209);
-
-	var _board_reducer2 = _interopRequireDefault(_board_reducer);
-
-	var _edit_modal_reducer = __webpack_require__(210);
-
-	var _edit_modal_reducer2 = _interopRequireDefault(_edit_modal_reducer);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var rootReducer = (0, _redux.combineReducers)({
-	  addModal: _add_modal_reducer2.default,
-	  board: _board_reducer2.default,
-	  editModal: _edit_modal_reducer2.default
-	});
-
-	exports.default = rootReducer;
-
-/***/ },
-/* 208 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['close'];
-		var action = arguments[1];
-
-		switch (action.type) {
-			case _index.CLOSE_MODAL:
-				return [action.payload];
-			case _index.OPEN_MODAL:
-				return [action.payload];
-		}
-
-		return state;
-	};
-
-	var _index = __webpack_require__(202);
-
-	;
-
-/***/ },
-/* 209 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-		var action = arguments[1];
-
-
-		switch (action.type) {
-			case _index.ADD_NOTE:
-				return [].concat(_toConsumableArray(action.payload));
-			case _index.GET_NOTES:
-				return [].concat(_toConsumableArray(action.payload));
-		}
-
-		return state;
-	};
-
-	var _index = __webpack_require__(202);
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	;
-
-/***/ },
-/* 210 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-
-	exports.default = function () {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { status: 'close', title: '', text: '', id: '' };
-		var action = arguments[1];
-
-		switch (action.type) {
-			case _index.OPEN_EDIT_MODAL:
-				console.log('from the edit reducer', action.payload);
-				var title = action.payload.title;
-				var text = action.payload.text;
-				var id = action.payload.id;
-				return { status: 'open', title: title, text: text, id: id };
-			case _index.CLOSE_EDIT_MODAL:
-				return { status: 'close' };
-		}
-
-		return state;
-	};
-
-	var _index = __webpack_require__(202);
-
-	;
-
-/***/ },
-/* 211 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22647,48 +22524,367 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditModal);
 
 /***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _redux = __webpack_require__(167);
+
+	var _index = __webpack_require__(202);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var DeleteModal = function (_Component) {
+		_inherits(DeleteModal, _Component);
+
+		function DeleteModal() {
+			_classCallCheck(this, DeleteModal);
+
+			return _possibleConstructorReturn(this, (DeleteModal.__proto__ || Object.getPrototypeOf(DeleteModal)).apply(this, arguments));
+		}
+
+		_createClass(DeleteModal, [{
+			key: 'handleCancel',
+			value: function handleCancel() {
+				this.props.closeDeleteModal();
+			}
+		}, {
+			key: 'handleDelete',
+			value: function handleDelete(noteId) {
+				this.props.deleteNote(noteId);
+				this.props.closeDeleteModal();
+				this.props.getNotes();
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
+
+				if (this.props.deleteModal.status === 'open') {
+					return _react2.default.createElement(
+						'div',
+						{ id: 'delete-modal' },
+						_react2.default.createElement(
+							'h3',
+							null,
+							'Delete Note'
+						),
+						_react2.default.createElement(
+							'p',
+							null,
+							'Are you sure you want to delete this note?'
+						),
+						_react2.default.createElement(
+							'div',
+							{ id: 'delete-modal-footer' },
+							_react2.default.createElement(
+								'button',
+								{ className: 'btn btn-cancel', onClick: function onClick() {
+										return _this2.handleCancel();
+									} },
+								'Cancel'
+							),
+							_react2.default.createElement(
+								'button',
+								{ className: 'btn btn-delete', onClick: function onClick() {
+										return _this2.handleDelete(_this2.props.deleteModal.id);
+									} },
+								'Delete'
+							)
+						)
+					);
+				} else {
+					return _react2.default.createElement('div', null);
+				}
+			}
+		}]);
+
+		return DeleteModal;
+	}(_react.Component);
+
+	function mapDispatchToProps(dispatch) {
+		return (0, _redux.bindActionCreators)({ closeDeleteModal: _index.closeDeleteModal, deleteNote: _index.deleteNote, getNotes: _index.getNotes }, dispatch);
+	};
+
+	function mapStateToProps(_ref) {
+		var deleteModal = _ref.deleteModal;
+
+		return { deleteModal: deleteModal };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DeleteModal);
+
+/***/ },
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _note = __webpack_require__(203);
+
+	var _note2 = _interopRequireDefault(_note);
+
+	var _redux = __webpack_require__(167);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _index = __webpack_require__(202);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Board = function (_Component) {
+		_inherits(Board, _Component);
+
+		function Board() {
+			_classCallCheck(this, Board);
+
+			return _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).apply(this, arguments));
+		}
+
+		_createClass(Board, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.props.getNotes();
+			}
+		}, {
+			key: 'renderNotes',
+			value: function renderNotes() {
+
+				var notes = this.props.board;
+
+				//let notes = [{title: 'Sample Note 1', text: 'this is the text 1'}, {title: 'Sample Note 2', text: 'this is the text 2'}, {title: 'Sample Note 3', text: 'this is the text 3'}]
+				if (notes) {
+					return notes.map(function (note, index) {
+						var title = note.title;
+						var text = note.text;
+						var id = note.id;
+
+						return _react2.default.createElement(_note2.default, { title: title, text: text, id: id, key: id });
+					});
+				} else {
+					return _react2.default.createElement('div', null);
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+
+				return _react2.default.createElement(
+					'div',
+					{ className: 'board' },
+					this.renderNotes()
+				);
+			}
+		}]);
+
+		return Board;
+	}(_react.Component);
+
+	function mapDispatchToProps(dispatch) {
+		return (0, _redux.bindActionCreators)({ getNotes: _index.getNotes }, dispatch);
+	};
+
+	function mapStateToProps(_ref) {
+		var board = _ref.board;
+
+		return { board: board };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Board);
+
+/***/ },
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _redux = __webpack_require__(167);
+
+	var _add_modal_reducer = __webpack_require__(210);
+
+	var _add_modal_reducer2 = _interopRequireDefault(_add_modal_reducer);
+
+	var _board_reducer = __webpack_require__(211);
+
+	var _board_reducer2 = _interopRequireDefault(_board_reducer);
+
+	var _edit_modal_reducer = __webpack_require__(212);
+
+	var _edit_modal_reducer2 = _interopRequireDefault(_edit_modal_reducer);
+
+	var _delete_modal_reducer = __webpack_require__(213);
+
+	var _delete_modal_reducer2 = _interopRequireDefault(_delete_modal_reducer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var rootReducer = (0, _redux.combineReducers)({
+	  addModal: _add_modal_reducer2.default,
+	  board: _board_reducer2.default,
+	  editModal: _edit_modal_reducer2.default,
+	  deleteModal: _delete_modal_reducer2.default
+	});
+
+	exports.default = rootReducer;
+
+/***/ },
+/* 210 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['close'];
+		var action = arguments[1];
+
+		switch (action.type) {
+			case _index.CLOSE_MODAL:
+				return [action.payload];
+			case _index.OPEN_MODAL:
+				return [action.payload];
+		}
+
+		return state;
+	};
+
+	var _index = __webpack_require__(202);
+
+	;
+
+/***/ },
+/* 211 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+		var action = arguments[1];
+
+
+		switch (action.type) {
+			case _index.ADD_NOTE:
+				return [].concat(_toConsumableArray(action.payload));
+			case _index.GET_NOTES:
+				return [].concat(_toConsumableArray(action.payload));
+		}
+
+		return state;
+	};
+
+	var _index = __webpack_require__(202);
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	;
+
+/***/ },
 /* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process, module) {/* 
-	(The MIT License)
-	Copyright (c) 2014 Halász Ádám <mail@adamhalasz.com>
-	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-	The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-	*/
+	'use strict';
 
-	//  Unique Hexatridecimal ID Generator
-	// ================================================
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 
-	//  Dependencies
-	// ================================================
-	var pid = process && process.pid ? process.pid.toString(36) : '' ;
-	var mac =  false ? require('macaddress').one(macHandler) : null ;
-	var address = mac ? parseInt(mac.replace(/\:|\D+/gi, '')).toString(36) : '' ;
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { status: 'close', title: '', text: '', id: '' };
+		var action = arguments[1];
 
-	//  Exports
-	// ================================================
-	module.exports         = function(prefix){ return (prefix || '') + address + pid + now().toString(36); }
-	module.exports.process = function(prefix){ return (prefix || '')           + pid + now().toString(36); }
-	module.exports.time    = function(prefix){ return (prefix || '')                 + now().toString(36); }
+		switch (action.type) {
+			case _index.OPEN_EDIT_MODAL:
+				var title = action.payload.title;
+				var text = action.payload.text;
+				var id = action.payload.id;
+				return { status: 'open', title: title, text: text, id: id };
+			case _index.CLOSE_EDIT_MODAL:
+				return { status: 'close' };
+		}
 
-	//  Helpers
-	// ================================================
-	function now(){
-	    var time = Date.now();
-	    var last = now.last || time;
-	    return now.last = time > last ? time : last + 1;
-	}
+		return state;
+	};
 
-	function macHandler(error){
-	    if(module.parent && module.parent.uniqid_debug){
-	        if(error) console.error('Info: No mac address - uniqid() falls back to uniqid.process().', error)
-	        if(pid == '') console.error('Info: No process.pid - uniqid.process() falls back to uniqid.time().')
-	    }
-	}
+	var _index = __webpack_require__(202);
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(181)(module)))
+	;
+
+/***/ },
+/* 213 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { status: 'close', id: '' };
+		var action = arguments[1];
+
+		switch (action.type) {
+			case _index.OPEN_DELETE_MODAL:
+				console.log('delete reducer', action.payload);
+				return { status: 'open', id: action.payload };
+			case _index.CLOSE_DELETE_MODAL:
+				console.log('close reducer');
+				return { status: 'close', id: '' };
+		}
+
+		return state;
+	};
+
+	var _index = __webpack_require__(202);
+
+	;
 
 /***/ }
 /******/ ]);

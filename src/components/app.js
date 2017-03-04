@@ -4,6 +4,7 @@ import Header from './header';
 import Note from './note';
 import AddModal from './add-modal';
 import EditModal from './edit-modal';
+import DeleteModal from './delete-modal';
 import Board from './board';
 
 export default class App extends Component {
@@ -17,6 +18,7 @@ export default class App extends Component {
       <Board />
       <AddModal />
       <EditModal />
+      <DeleteModal />
       </div>
     );
   }

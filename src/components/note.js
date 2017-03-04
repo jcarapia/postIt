@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {openEditModal} from '../actions/index';
+import {openDeleteModal} from '../actions/index';
 
 class Note extends Component {
 
@@ -12,13 +13,17 @@ class Note extends Component {
 		this.props.openEditModal({title, text, id});
 	}
 
+	deleteNote() {
+		let id = this.props.id;
+		this.props.openDeleteModal(id);
+	}
+
   render() {	
-  	
   	console.log(this.props.id)
     return (
       <div className="note">
       	<h5>{this.props.title}
-      		<i className="fa fa-trash" aria-hidden="true"></i>
+      		<i className="fa fa-trash" aria-hidden="true" onClick={() => this.deleteNote()}></i>
       		<i className="fa fa-pencil" aria-hidden="true" onClick={() => this.editNote()}></i>
 				</h5>
 				<div className="text-container">
@@ -32,7 +37,7 @@ class Note extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({openEditModal}, dispatch);
+	return bindActionCreators({openEditModal, openDeleteModal}, dispatch);
 };
 
 
