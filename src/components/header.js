@@ -18,7 +18,7 @@ class Header extends Component {
       </div>
     );
   }
-}
+};
 
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({openAddModal}, dispatch);

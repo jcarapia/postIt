@@ -74,7 +74,7 @@ class EditModal extends Component {
   		)
   	}
   }
-}
+};
 
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({closeEditModal, editNote, getNotes}, dispatch);
@@ -82,6 +82,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({editModal}) {
 	return {editModal};
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditModal);

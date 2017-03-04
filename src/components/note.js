@@ -19,7 +19,6 @@ class Note extends Component {
 	}
 
   render() {	
-  	console.log(this.props.id)
     return (
       <div className="note">
       	<h5>{this.props.title}
@@ -34,7 +33,7 @@ class Note extends Component {
       </div>
     );
   }
-}
+};
 
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({openEditModal, openDeleteModal}, dispatch);

@@ -25,4 +25,4 @@ export default class SaveModal extends Component {
       </div>
     );
   }
-}
+};

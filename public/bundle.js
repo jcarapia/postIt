@@ -21889,6 +21889,7 @@
 	}(_react.Component);
 
 	exports.default = App;
+	;
 
 /***/ },
 /* 201 */
@@ -21961,6 +21962,8 @@
 	  return Header;
 	}(_react.Component);
 
+	;
+
 	function mapDispatchToProps(dispatch) {
 	  return (0, _redux.bindActionCreators)({ openAddModal: _index.openAddModal }, dispatch);
 	};
@@ -22002,45 +22005,42 @@
 			type: CLOSE_MODAL,
 			payload: 'close'
 		};
-	}
+	};
 
 	function openAddModal() {
 		return {
 			type: OPEN_MODAL,
 			payload: 'open'
 		};
-	}
+	};
 
 	function openEditModal(note) {
 		return {
 			type: OPEN_EDIT_MODAL,
 			payload: note
 		};
-	}
+	};
 
 	function closeEditModal() {
-		console.log('closing modal');
 		return {
 			type: CLOSE_EDIT_MODAL,
 			payload: 'close'
 		};
-	}
+	};
 
 	function openDeleteModal(noteId) {
-
 		return {
 			type: OPEN_DELETE_MODAL,
 			payload: noteId
 		};
-	}
+	};
 
 	function closeDeleteModal() {
-		console.log('close action');
 		return {
 			type: CLOSE_DELETE_MODAL,
 			payload: 'close'
 		};
-	}
+	};
 
 	function getNotes() {
 		var notes = localStorage.getItem('notes');
@@ -22053,7 +22053,7 @@
 			type: GET_NOTES,
 			payload: notesArray
 		};
-	}
+	};
 
 	function addNote(note) {
 		var notes = localStorage.getItem('notes');
@@ -22069,7 +22069,7 @@
 			type: ADD_NOTE,
 			payload: notesArray
 		};
-	}
+	};
 
 	function deleteNote(noteId) {
 		var notes = localStorage.getItem('notes');
@@ -22088,7 +22088,7 @@
 			type: DELETE_NOTE,
 			payload: 'test'
 		};
-	}
+	};
 
 	function editNote(title, text, id) {
 		var notes = localStorage.getItem('notes');
@@ -22107,7 +22107,7 @@
 			type: EDIT_NOTE,
 			payload: 'test'
 		};
-	}
+	};
 
 /***/ },
 /* 203 */
@@ -22167,7 +22167,6 @@
 			value: function render() {
 				var _this2 = this;
 
-				console.log(this.props.id);
 				return _react2.default.createElement(
 					'div',
 					{ className: 'note' },
@@ -22197,6 +22196,8 @@
 
 		return Note;
 	}(_react.Component);
+
+	;
 
 	function mapDispatchToProps(dispatch) {
 		return (0, _redux.bindActionCreators)({ openEditModal: _index.openEditModal, openDeleteModal: _index.openDeleteModal }, dispatch);
@@ -22323,6 +22324,8 @@
 		return AddModal;
 	}(_react.Component);
 
+	;
+
 	function mapDispatchToProps(dispatch) {
 		return (0, _redux.bindActionCreators)({ closeAddModal: _index.closeAddModal, addNote: _index.addNote }, dispatch);
 	};
@@ -22331,7 +22334,7 @@
 		var addModal = _ref.addModal;
 
 		return { addModal: addModal };
-	}
+	};
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(AddModal);
 
@@ -22511,6 +22514,8 @@
 		return EditModal;
 	}(_react.Component);
 
+	;
+
 	function mapDispatchToProps(dispatch) {
 		return (0, _redux.bindActionCreators)({ closeEditModal: _index.closeEditModal, editNote: _index.editNote, getNotes: _index.getNotes }, dispatch);
 	};
@@ -22519,7 +22524,7 @@
 		var editModal = _ref.editModal;
 
 		return { editModal: editModal };
-	}
+	};
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(EditModal);
 
@@ -22621,6 +22626,8 @@
 		return DeleteModal;
 	}(_react.Component);
 
+	;
+
 	function mapDispatchToProps(dispatch) {
 		return (0, _redux.bindActionCreators)({ closeDeleteModal: _index.closeDeleteModal, deleteNote: _index.deleteNote, getNotes: _index.getNotes }, dispatch);
 	};
@@ -22629,7 +22636,7 @@
 		var deleteModal = _ref.deleteModal;
 
 		return { deleteModal: deleteModal };
-	}
+	};
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DeleteModal);
 
@@ -22687,7 +22694,6 @@
 
 				var notes = this.props.board;
 
-				//let notes = [{title: 'Sample Note 1', text: 'this is the text 1'}, {title: 'Sample Note 2', text: 'this is the text 2'}, {title: 'Sample Note 3', text: 'this is the text 3'}]
 				if (notes) {
 					return notes.map(function (note, index) {
 						var title = note.title;
@@ -22715,6 +22721,8 @@
 		return Board;
 	}(_react.Component);
 
+	;
+
 	function mapDispatchToProps(dispatch) {
 		return (0, _redux.bindActionCreators)({ getNotes: _index.getNotes }, dispatch);
 	};
@@ -22723,7 +22731,7 @@
 		var board = _ref.board;
 
 		return { board: board };
-	}
+	};
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Board);
 

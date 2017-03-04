@@ -33,7 +33,7 @@ class DeleteModal extends Component {
 		}
 		
 	}
-}
+};
 
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({closeDeleteModal, deleteNote, getNotes}, dispatch);
@@ -41,6 +41,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({deleteModal}) {
 	return {deleteModal};
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeleteModal);

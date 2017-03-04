@@ -65,7 +65,7 @@ class AddModal extends Component {
   		)
   	}
   }
-}
+};
 
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({closeAddModal, addNote}, dispatch);
@@ -73,6 +73,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({addModal}) {
 	return {addModal};
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddModal);
