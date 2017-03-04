@@ -4,6 +4,12 @@ import Note from './note';
 
 export default class Board extends Component {
 
+	componentDidMount() {
+		let notes = localStorage.getItem('notes')
+		notes = JSON.parse(notes);
+		console.log('***', notes)
+	}
+
 	renderNotes() {
 		let notes = localStorage.getItem('notes')
 		notes = JSON.parse(notes);

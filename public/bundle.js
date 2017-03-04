@@ -22350,6 +22350,13 @@
 		}
 
 		_createClass(Board, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var notes = localStorage.getItem('notes');
+				notes = JSON.parse(notes);
+				console.log('***', notes);
+			}
+		}, {
 			key: 'renderNotes',
 			value: function renderNotes() {
 				var notes = localStorage.getItem('notes');
