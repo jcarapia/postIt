@@ -2,6 +2,11 @@ module.exports = {
   entry: [
     './src/index.js'
   ],
+  plugins: [
+  	new webpack.DefinePlugin({ 
+    	'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') } 
+  	})
+  ],
   output: {
     path: __dirname + '/public',
     publicPath: '/',
