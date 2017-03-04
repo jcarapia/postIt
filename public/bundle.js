@@ -21844,6 +21844,10 @@
 
 	var _saveModal2 = _interopRequireDefault(_saveModal);
 
+	var _board = __webpack_require__(209);
+
+	var _board2 = _interopRequireDefault(_board);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21864,12 +21868,12 @@
 	  _createClass(App, [{
 	    key: 'render',
 	    value: function render() {
+
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(_header2.default, null),
-	        _react2.default.createElement(_note2.default, null),
-	        _react2.default.createElement(_note2.default, null),
+	        _react2.default.createElement(_board2.default, null),
 	        _react2.default.createElement(_addModal2.default, null)
 	      );
 	    }
@@ -22028,7 +22032,7 @@
 	        _react2.default.createElement(
 	          "h5",
 	          null,
-	          "Sample Note",
+	          this.props.title,
 	          _react2.default.createElement("i", { className: "fa fa-trash", "aria-hidden": "true" }),
 	          _react2.default.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" })
 	        ),
@@ -22038,7 +22042,7 @@
 	          _react2.default.createElement(
 	            "p",
 	            null,
-	            "Pabst subway tile DIY jianbing. Fixie chillwave vaporware selvage, wayfarers flannel humblebrag heirloom VHS pinterest drinking vinegar portland shabby chic mixtape. Ethical fap mumblecore tote bag literally chillwave, crucifix gluten-free tofu. VHS salvia DIY sriracha squid migas, fanny pack succulents gluten-free tumblr. Shabby chic health goth keytar, man bun dreamcatcher food truck tbh chillwave 8-bit hella iceland artisan. Raw denim actually authentic put a bird on it pork belly, fam tilde taxidermy tofu. YOLO craft beer retro kitsch cardigan selfies, jianbing bicycle rights gochujang banh mi deep v roof party."
+	            this.props.text
 	          )
 	        )
 	      );
@@ -22088,26 +22092,42 @@
 
 			var _this = _possibleConstructorReturn(this, (AddModal.__proto__ || Object.getPrototypeOf(AddModal)).call(this, props));
 
-			_this.state = { status: 'close' };
+			_this.state = { status: 'close',
+				title: '',
+				text: ''
+			};
 			return _this;
 		}
 
 		_createClass(AddModal, [{
+			key: 'onTitleChange',
+			value: function onTitleChange(e) {
+				this.setState({ title: e.target.value });
+			}
+		}, {
+			key: 'onTextChange',
+			value: function onTextChange(e) {
+				this.setState({ text: e.target.value });
+			}
+		}, {
 			key: 'handleCancel',
 			value: function handleCancel() {
 				this.props.closeAddModal();
 			}
 		}, {
-			key: 'handleNewNote',
-			value: function handleNewNote() {
-				console.log('new note');
+			key: 'handleSubmit',
+			value: function handleSubmit() {
+				var note = { title: this.state.title, text: this.state.text };
+				var noteArray = JSON.parse(localStorage.getItem('notes'));
+				console.log(noteArray);
+				noteArray.push(note);
+				localStorage.setItem('notes', JSON.stringify(noteArray));
+				this.props.closeAddModal();
 			}
 		}, {
 			key: 'render',
 			value: function render() {
 				var _this2 = this;
-
-				console.log('***', this.props.addModal[0]);
 
 				if (this.props.addModal[0] === 'open') {
 					return _react2.default.createElement(
@@ -22121,8 +22141,8 @@
 							_react2.default.createElement('li', { id: 'yellow' }),
 							_react2.default.createElement('li', { id: 'blue' })
 						),
-						_react2.default.createElement('input', { type: 'text', placeholder: this.props.addModal[0] }),
-						_react2.default.createElement('textarea', { placeholder: 'Just start typing here' }),
+						_react2.default.createElement('input', { type: 'text', placeholder: 'Untitled', onChange: this.onTitleChange.bind(this) }),
+						_react2.default.createElement('textarea', { placeholder: 'Just start typing here', onChange: this.onTextChange.bind(this) }),
 						_react2.default.createElement(
 							'div',
 							{ className: 'modal-footer' },
@@ -22136,7 +22156,7 @@
 							_react2.default.createElement(
 								'button',
 								{ className: 'btn btn-add', onClick: function onClick() {
-										return _this2.handleNewNote();
+										return _this2.handleSubmit();
 									} },
 								'Add'
 							)
@@ -22290,6 +22310,77 @@
 	var _index = __webpack_require__(202);
 
 	;
+
+/***/ },
+/* 208 */,
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _note = __webpack_require__(203);
+
+	var _note2 = _interopRequireDefault(_note);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Board = function (_Component) {
+		_inherits(Board, _Component);
+
+		function Board() {
+			_classCallCheck(this, Board);
+
+			return _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).apply(this, arguments));
+		}
+
+		_createClass(Board, [{
+			key: 'renderNotes',
+			value: function renderNotes() {
+				var notes = localStorage.getItem('notes');
+				notes = JSON.parse(notes);
+				console.log(notes);
+
+				// let notes = [{title: 'Sample Note 1', text: 'this is the text 1'}, {title: 'Sample Note 2', text: 'this is the text 2'}, {title: 'Sample Note 3', text: 'this is the text 3'}]
+
+				return notes.map(function (note) {
+					var title = note.title;
+					var text = note.text;
+
+					return _react2.default.createElement(_note2.default, { title: title, text: text, key: title });
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+
+				return _react2.default.createElement(
+					'div',
+					{ className: 'board' },
+					this.renderNotes()
+				);
+			}
+		}]);
+
+		return Board;
+	}(_react.Component);
+
+	exports.default = Board;
 
 /***/ }
 /******/ ]);
