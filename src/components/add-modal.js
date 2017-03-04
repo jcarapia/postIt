@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {closeAddModal} from '../actions/index';
+import {addNote} from '../actions/index';
 
 
 class AddModal extends Component {
@@ -28,10 +29,7 @@ class AddModal extends Component {
 
 	handleSubmit() {
 		let note = {title: this.state.title, text: this.state.text};
-		let noteArray = JSON.parse(localStorage.getItem('notes'));
-		console.log(noteArray)
-		noteArray.push(note);
-		localStorage.setItem('notes', JSON.stringify(noteArray));
+		this.props.addNote(note);
 		this.props.closeAddModal();
 	}
 
@@ -68,7 +66,7 @@ class AddModal extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-	return bindActionCreators({closeAddModal}, dispatch);
+	return bindActionCreators({closeAddModal, addNote}, dispatch);
 };
 
 function mapStateToProps({addModal}) {

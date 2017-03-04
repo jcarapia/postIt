@@ -21972,8 +21972,12 @@
 	});
 	exports.closeAddModal = closeAddModal;
 	exports.openAddModal = openAddModal;
+	exports.getNotes = getNotes;
+	exports.addNote = addNote;
 	var OPEN_MODAL = exports.OPEN_MODAL = 'OPEN_MODAL';
 	var CLOSE_MODAL = exports.CLOSE_MODAL = 'CLOSE_MODAL';
+	var ADD_NOTE = exports.ADD_NOTE = 'ADD_NOTE';
+	var GET_NOTES = exports.GET_NOTES = 'GET_NOTES';
 
 	function closeAddModal() {
 		console.log('closing modal');
@@ -21987,6 +21991,35 @@
 		return {
 			type: OPEN_MODAL,
 			payload: 'open'
+		};
+	}
+
+	function getNotes() {
+		var notes = localStorage.getItem('notes');
+		if (!notes) {
+			notes = "[]";
+		};
+		var notesArray = JSON.parse(notes);
+
+		return {
+			type: GET_NOTES,
+			payload: notesArray
+		};
+	}
+
+	function addNote(note) {
+		var notes = localStorage.getItem('notes');
+		if (!notes) {
+			notes = "[]";
+		};
+
+		var notesArray = JSON.parse(notes);
+		notesArray.push(note);
+		localStorage.setItem('notes', JSON.stringify(notesArray));
+
+		return {
+			type: ADD_NOTE,
+			payload: notesArray
 		};
 	}
 
@@ -22118,10 +22151,7 @@
 			key: 'handleSubmit',
 			value: function handleSubmit() {
 				var note = { title: this.state.title, text: this.state.text };
-				var noteArray = JSON.parse(localStorage.getItem('notes'));
-				console.log(noteArray);
-				noteArray.push(note);
-				localStorage.setItem('notes', JSON.stringify(noteArray));
+				this.props.addNote(note);
 				this.props.closeAddModal();
 			}
 		}, {
@@ -22172,7 +22202,7 @@
 	}(_react.Component);
 
 	function mapDispatchToProps(dispatch) {
-		return (0, _redux.bindActionCreators)({ closeAddModal: _index.closeAddModal }, dispatch);
+		return (0, _redux.bindActionCreators)({ closeAddModal: _index.closeAddModal, addNote: _index.addNote }, dispatch);
 	};
 
 	function mapStateToProps(_ref) {
@@ -22271,11 +22301,16 @@
 
 	var _add_modal_reducer2 = _interopRequireDefault(_add_modal_reducer);
 
+	var _board_reducer = __webpack_require__(210);
+
+	var _board_reducer2 = _interopRequireDefault(_board_reducer);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
 	  // state: (state = {}) => state
-	  addModal: _add_modal_reducer2.default
+	  addModal: _add_modal_reducer2.default,
+	  board: _board_reducer2.default
 
 	});
 
@@ -22332,6 +22367,12 @@
 
 	var _note2 = _interopRequireDefault(_note);
 
+	var _redux = __webpack_require__(167);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _index = __webpack_require__(202);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22350,18 +22391,18 @@
 		}
 
 		_createClass(Board, [{
-			key: 'componentWillMount',
-			value: function componentWillMount() {
-				var notes = localStorage.getItem('notes');
-				notes = JSON.parse(notes);
-				console.log('***', notes);
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.props.getNotes();
 			}
 		}, {
 			key: 'renderNotes',
 			value: function renderNotes() {
-				var notes = localStorage.getItem('notes');
-				notes = JSON.parse(notes);
-				console.log(notes);
+				// let notes = localStorage.getItem('notes')
+				// notes = JSON.parse(notes);
+
+				console.log('the board state', this.props.board);
+				var notes = this.props.board;
 
 				//let notes = [{title: 'Sample Note 1', text: 'this is the text 1'}, {title: 'Sample Note 2', text: 'this is the text 2'}, {title: 'Sample Note 3', text: 'this is the text 3'}]
 				if (notes) {
@@ -22390,7 +22431,49 @@
 		return Board;
 	}(_react.Component);
 
-	exports.default = Board;
+	function mapDispatchToProps(dispatch) {
+		return (0, _redux.bindActionCreators)({ getNotes: _index.getNotes }, dispatch);
+	};
+
+	function mapStateToProps(_ref) {
+		var board = _ref.board;
+
+		return { board: board };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Board);
+
+/***/ },
+/* 210 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	exports.default = function () {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+		var action = arguments[1];
+
+		console.log(action);
+		switch (action.type) {
+			case _index.ADD_NOTE:
+				console.log('the payload', action.payload);
+				return [].concat(_toConsumableArray(action.payload));
+			case _index.GET_NOTES:
+				return [].concat(_toConsumableArray(action.payload));
+		}
+
+		return state;
+	};
+
+	var _index = __webpack_require__(202);
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	;
 
 /***/ }
 /******/ ]);

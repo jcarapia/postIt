@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import Note from './note';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {getNotes} from '../actions/index';
 
 
-export default class Board extends Component {
+class Board extends Component {
 
-	componentWillMount() {
-		let notes = localStorage.getItem('notes')
-		notes = JSON.parse(notes);
-		console.log('***', notes)
+	componentDidMount() {
+		this.props.getNotes();
 	}
 
 	renderNotes() {
-		let notes = localStorage.getItem('notes')
-		notes = JSON.parse(notes);
-		console.log(notes);
+		// let notes = localStorage.getItem('notes')
+		// notes = JSON.parse(notes);
+
+		console.log('the board state', this.props.board);
+		let notes = this.props.board;
 
 		//let notes = [{title: 'Sample Note 1', text: 'this is the text 1'}, {title: 'Sample Note 2', text: 'this is the text 2'}, {title: 'Sample Note 3', text: 'this is the text 3'}]
 		if(notes){
@@ -40,3 +43,15 @@ export default class Board extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({getNotes}, dispatch);
+};
+
+function mapStateToProps({board}) {
+	return {board};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board);
+
+
