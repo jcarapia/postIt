@@ -22359,11 +22359,11 @@
 		}, {
 			key: 'renderNotes',
 			value: function renderNotes() {
-				var notes = localStorage.getItem('notes');
-				notes = JSON.parse(notes);
-				console.log(notes);
+				//let notes = localStorage.getItem('notes')
+				//notes = JSON.parse(notes);
+				//console.log(notes)
 
-				// let notes = [{title: 'Sample Note 1', text: 'this is the text 1'}, {title: 'Sample Note 2', text: 'this is the text 2'}, {title: 'Sample Note 3', text: 'this is the text 3'}]
+				var notes = [{ title: 'Sample Note 1', text: 'this is the text 1' }, { title: 'Sample Note 2', text: 'this is the text 2' }, { title: 'Sample Note 3', text: 'this is the text 3' }];
 
 				return notes.map(function (note) {
 					var title = note.title;
