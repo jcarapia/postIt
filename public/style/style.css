@@ -4,20 +4,25 @@
 	box-sizing: border-box;
 }
 
-html, body {
-	font-size: 20px;
-	color: #fff;
-	background-color: #ecf0f1;
-	font-family: 'Lato', sans-serif;
-	text-transform: uppercase;
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-h1, h2, h3, h4 {
+html, body {
 	color: #2c3e50;
+	font-size: 20px;
+	background-color: #ecf0f1;
+	font-family: 'Lato', sans-serif;
 }
 
 span {
 	margin: 0 10px;
+}
+
+ul {
+	list-style: none;
 }
 
 .btn {
@@ -31,7 +36,8 @@ span {
 	outline: none;
 }
 
-.btn-add {
+.btn-add,
+.btn-save {
 	background-color: #56c4ef;
 }
 
@@ -62,9 +68,119 @@ span {
 	border-radius: 5px;
 }
 
-.note h4 {
+.note h5 {
 	padding: 5%;
 	border-bottom: 2px solid #bdc3c7;
 }
+
+.note i {
+	float: right;
+	margin-left: 10px;
+	color: #bdc3c7;
+}
+
+.note i:hover {
+	color: #56c4ef;
+}
+
+.text-container {
+	font-size: 80%;
+	height: 180px;
+	padding: 5%;
+	overflow-y: scroll;
+}
+
+/* Note Modal */
+
+.note-modal {
+	position: absolute;	
+	width: 500px;
+	height: 550px;
+	background-color: #fff;
+	z-index: 9999;
+	margin-top: 30px;
+	margin-left: -250px;
+	left: 50%;
+	visibility: hidden;
+	border-top: 8px solid red;
+	border-radius: 8px;
+}
+
+.note-modal ul {
+	margin-top: 20px;
+	margin-left: 15px;
+}
+
+.note-modal li {
+	float: left;
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+	border-radius: 4px;
+}
+
+.note-modal li:hover {
+	border: 2px solid #34495e;
+	position: relative;
+}
+
+#red {background-color: red;}
+#green {background-color: green;}
+#yellow {background-color: yellow;}
+#blue {background-color: blue;}
+
+.note-modal input {
+	margin-left: 15px;
+	margin-top: 15px;
+	font-size: inherit;
+	font-style: italic;
+	border: none;
+	outline: none;
+	width: 90%;
+}
+
+.note-modal textarea {
+	margin-left: 15px;
+	border: none;
+	outline: none;
+	margin-top: 25px;
+	width: 90%;
+	height: 50%;
+	resize: none;
+	font-size: 75%;
+}
+
+.modal-footer {
+	margin-top: 100px;
+	height: 80px;
+	background-color: #f9f9f9;
+	border-radius: 0px 0px 8px 8px;
+}
+
+.modal-footer .btn-cancel {
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+.modal-footer .btn-add,
+.modal-footer .btn-save {
+	margin-left: 300px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

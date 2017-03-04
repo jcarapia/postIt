@@ -21836,6 +21836,14 @@
 
 	var _note2 = _interopRequireDefault(_note);
 
+	var _addModal = __webpack_require__(208);
+
+	var _addModal2 = _interopRequireDefault(_addModal);
+
+	var _saveModal = __webpack_require__(209);
+
+	var _saveModal2 = _interopRequireDefault(_saveModal);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21861,7 +21869,8 @@
 	        null,
 	        _react2.default.createElement(_header2.default, null),
 	        _react2.default.createElement(_note2.default, null),
-	        _react2.default.createElement(_note2.default, null)
+	        _react2.default.createElement(_note2.default, null),
+	        _react2.default.createElement(_saveModal2.default, null)
 	      );
 	    }
 	  }]);
@@ -21900,7 +21909,7 @@
 /* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -21911,6 +21920,12 @@
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _redux = __webpack_require__(167);
+
+	var _index = __webpack_require__(210);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21930,20 +21945,29 @@
 	  }
 
 	  _createClass(Header, [{
-	    key: "render",
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      this.props.openAddModal();
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "header" },
+	        'div',
+	        { className: 'header' },
 	        _react2.default.createElement(
-	          "button",
-	          { id: "add-note", className: "btn btn-add" },
+	          'button',
+	          { id: 'add-note', className: 'btn btn-add', onClick: function onClick() {
+	              return _this2.handleClick();
+	            } },
 	          _react2.default.createElement(
-	            "span",
+	            'span',
 	            null,
-	            "+"
+	            '+'
 	          ),
-	          "Add Note"
+	          'Add Note'
 	        )
 	      );
 	    }
@@ -21952,7 +21976,11 @@
 	  return Header;
 	}(_react.Component);
 
-	exports.default = Header;
+	function mapDispatchToProps(dispatch) {
+	  return (0, _redux.bindActionCreators)({ openAddModal: _index.openAddModal }, dispatch);
+	};
+
+	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(Header);
 
 /***/ },
 /* 206 */
@@ -21994,9 +22022,20 @@
 	        "div",
 	        { className: "note" },
 	        _react2.default.createElement(
-	          "h4",
+	          "h5",
 	          null,
-	          "Sample Note"
+	          "Sample Note",
+	          _react2.default.createElement("i", { className: "fa fa-trash", "aria-hidden": "true" }),
+	          _react2.default.createElement("i", { className: "fa fa-pencil", "aria-hidden": "true" })
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: "text-container" },
+	          _react2.default.createElement(
+	            "p",
+	            null,
+	            "Pabst subway tile DIY jianbing. Fixie chillwave vaporware selvage, wayfarers flannel humblebrag heirloom VHS pinterest drinking vinegar portland shabby chic mixtape. Ethical fap mumblecore tote bag literally chillwave, crucifix gluten-free tofu. VHS salvia DIY sriracha squid migas, fanny pack succulents gluten-free tumblr. Shabby chic health goth keytar, man bun dreamcatcher food truck tbh chillwave 8-bit hella iceland artisan. Raw denim actually authentic put a bird on it pork belly, fam tilde taxidermy tofu. YOLO craft beer retro kitsch cardigan selfies, jianbing bicycle rights gochujang banh mi deep v roof party."
+	          )
 	        )
 	      );
 	    }
@@ -22006,6 +22045,179 @@
 	}(_react.Component);
 
 	exports.default = Note;
+
+/***/ },
+/* 207 */,
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+			value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var AddModal = function (_Component) {
+			_inherits(AddModal, _Component);
+
+			function AddModal() {
+					_classCallCheck(this, AddModal);
+
+					return _possibleConstructorReturn(this, (AddModal.__proto__ || Object.getPrototypeOf(AddModal)).apply(this, arguments));
+			}
+
+			_createClass(AddModal, [{
+					key: "render",
+					value: function render() {
+							return _react2.default.createElement(
+									"div",
+									{ className: "note-modal" },
+									_react2.default.createElement(
+											"ul",
+											{ className: "palette group" },
+											_react2.default.createElement("li", { id: "red" }),
+											_react2.default.createElement("li", { id: "green" }),
+											_react2.default.createElement("li", { id: "yellow" }),
+											_react2.default.createElement("li", { id: "blue" })
+									),
+									_react2.default.createElement("input", { type: "text", placeholder: "Untitled" }),
+									_react2.default.createElement("textarea", { placeholder: "Just start typing here" }),
+									_react2.default.createElement(
+											"div",
+											{ className: "modal-footer" },
+											_react2.default.createElement(
+													"button",
+													{ className: "btn btn-cancel" },
+													"Cancel"
+											),
+											_react2.default.createElement(
+													"button",
+													{ className: "btn btn-add" },
+													"Add"
+											)
+									)
+							);
+					}
+			}]);
+
+			return AddModal;
+	}(_react.Component);
+
+	exports.default = AddModal;
+
+/***/ },
+/* 209 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+			value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var SaveModal = function (_Component) {
+			_inherits(SaveModal, _Component);
+
+			function SaveModal() {
+					_classCallCheck(this, SaveModal);
+
+					return _possibleConstructorReturn(this, (SaveModal.__proto__ || Object.getPrototypeOf(SaveModal)).apply(this, arguments));
+			}
+
+			_createClass(SaveModal, [{
+					key: "render",
+					value: function render() {
+							return _react2.default.createElement(
+									"div",
+									{ className: "note-modal" },
+									_react2.default.createElement(
+											"ul",
+											{ className: "palette group" },
+											_react2.default.createElement("li", { id: "red" }),
+											_react2.default.createElement("li", { id: "green" }),
+											_react2.default.createElement("li", { id: "yellow" }),
+											_react2.default.createElement("li", { id: "blue" })
+									),
+									_react2.default.createElement("input", { type: "text", placeholder: "Untitled" }),
+									_react2.default.createElement("textarea", { placeholder: "Just start typing here" }),
+									_react2.default.createElement(
+											"div",
+											{ className: "modal-footer" },
+											_react2.default.createElement(
+													"button",
+													{ className: "btn btn-cancel" },
+													"Cancel"
+											),
+											_react2.default.createElement(
+													"button",
+													{ className: "btn btn-save" },
+													"Save"
+											)
+									)
+							);
+					}
+			}]);
+
+			return SaveModal;
+	}(_react.Component);
+
+	exports.default = SaveModal;
+
+/***/ },
+/* 210 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.openAddModal = openAddModal;
+	exports.closeAddModal = closeAddModal;
+	var ADD_MODAL = exports.ADD_MODAL = 'ADD_MODAL';
+
+	function openAddModal() {
+		console.log('hello');
+		return {
+			type: ADD_MODAL,
+			payload: 'open'
+		};
+	}
+
+	function closeAddModal() {
+		return {
+			type: CLOSE_MODAL,
+			payload: 'close'
+		};
+	}
 
 /***/ }
 /******/ ]);
