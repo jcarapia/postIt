@@ -22359,18 +22359,21 @@
 		}, {
 			key: 'renderNotes',
 			value: function renderNotes() {
-				//let notes = localStorage.getItem('notes')
-				//notes = JSON.parse(notes);
-				//console.log(notes)
+				var notes = localStorage.getItem('notes');
+				notes = JSON.parse(notes);
+				console.log(notes);
 
-				var notes = [{ title: 'Sample Note 1', text: 'this is the text 1' }, { title: 'Sample Note 2', text: 'this is the text 2' }, { title: 'Sample Note 3', text: 'this is the text 3' }];
+				//let notes = [{title: 'Sample Note 1', text: 'this is the text 1'}, {title: 'Sample Note 2', text: 'this is the text 2'}, {title: 'Sample Note 3', text: 'this is the text 3'}]
+				if (notes) {
+					return notes.map(function (note) {
+						var title = note.title;
+						var text = note.text;
 
-				return notes.map(function (note) {
-					var title = note.title;
-					var text = note.text;
-
-					return _react2.default.createElement(_note2.default, { title: title, text: text, key: title });
-				});
+						return _react2.default.createElement(_note2.default, { title: title, text: text, key: title });
+					});
+				} else {
+					return _react2.default.createElement('div', null);
+				}
 			}
 		}, {
 			key: 'render',
