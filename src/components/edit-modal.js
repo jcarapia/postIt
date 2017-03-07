@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {closeEditModal} from '../actions/index'; 
 import {editNote} from '../actions/index'; 
 import {getNotes} from '../actions/index';

@@ -50,5 +50,3 @@ function mapStateToProps({board}) {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
-
-

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import uniqid from 'uniqid';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
 import {closeAddModal} from '../actions/index';
 import {addNote} from '../actions/index';
 

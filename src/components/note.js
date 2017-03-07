@@ -42,5 +42,4 @@ function mapDispatchToProps(dispatch) {
 	return bindActionCreators({openEditModal, openDeleteModal}, dispatch);
 };
 
-
 export default connect(null, mapDispatchToProps)(Note);

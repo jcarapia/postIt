@@ -115,6 +115,3 @@ export function editNote(title, text, color, id) {
 		payload: 'test'
 	}
 };
-
-
-
