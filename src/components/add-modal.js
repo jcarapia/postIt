@@ -13,7 +13,8 @@ class AddModal extends Component {
 		this.state = {status: 'close',
 									title: '',
 									text: '',
-									color: 'blue'
+									color: 'red',
+									addButtonStatus: 'btn btn-add no-save'
 								}
 	}
 
@@ -30,14 +31,26 @@ class AddModal extends Component {
 	}
 
 	handleSubmit() {
-		let id = uniqid();
-		let note = {title: this.state.title, text: this.state.text, color: this.state.color, id: id};
-		this.props.addNote(note);
-		this.props.closeAddModal();
+		if(this.state.title){
+			let id = uniqid();
+			let note = {title: this.state.title, text: this.state.text, color: this.state.color, id: id};
+			this.props.addNote(note);
+			this.setState({title: ''});
+			this.setState({text: ''});
+			this.props.closeAddModal();
+		}
 	}
 
 	setColor(color) {
 		this.setState({color: color});
+	}
+
+	buttonStatus() {
+		if(this.state.title){
+			return 'btn btn-add allow-save';
+		} else {
+			return 'btn btn-add no-save';
+		}
 	}
 
   render() {
@@ -59,7 +72,7 @@ class AddModal extends Component {
 
 		  		<div className="modal-footer">
 		  			<button className="btn btn-cancel" onClick={()=> this.handleCancel()}>Cancel</button>
-		  			<button className="btn btn-add" onClick={() => this.handleSubmit()}>Add</button>
+		  			<button className={this.buttonStatus()} onClick={() => this.handleSubmit()}>Add</button>
 		  		</div>
 	     
 	      </div>

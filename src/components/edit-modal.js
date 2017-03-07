@@ -13,50 +13,60 @@ class EditModal extends Component {
 		this.state = {status: 'close',
 									title: '',
 									text: '',
-									color: ''
+									color: '',
+									saveButtonStatus: 'btn btn-save no-save'
 								}
 	}
 
 	onTitleChange(e) {
-		this.setState({title: e.target.value})
+		this.setState({title: e.target.value, saveButtonStatus: 'btn btn-save allow-save'});
 	}
 
 	onTextChange(e) {
-		this.setState({text: e.target.value})
+		this.setState({text: e.target.value, saveButtonStatus: 'btn btn-save allow-save'});
 	}
 
 	handleCancel() {
 		this.props.closeEditModal();
+		this.setState({saveButtonStatus: 'btn btn-save no-save'});
 	}
 
 	setColor(color) {
-		this.setState({color: color});
+		this.setState({color: color, saveButtonStatus: 'btn btn-save allow-save'});
+	}
+
+	buttonStatus() {
+		if(this.state.saveButtonStatus === 'btn btn-save allow-save'){
+			return 'btn btn-add allow-save';
+		} else {
+			return 'btn btn-add no-save';
+		}
 	}
 
 	handleSubmit() {
-		let id = this.props.editModal.id;
-		let title = this.state.title;
-		let text = this.state.text;
-		let color = this.state.color;
-
-		if(!title) {title = this.props.editModal.title};
-		if(!text) {text = this.props.editModal.text};	
-		if(!color) {color = this.props.editModal.color}
-		this.props.editNote(title, text, id);
-		this.props.closeEditModal();
-		this.props.getNotes();
+		if(this.state.saveButtonStatus === 'btn btn-save allow-save'){
+			let id = this.props.editModal.id;
+			let title = this.state.title;
+			let text = this.state.text;
+			let color = this.state.color;
+			if(!title) {title = this.props.editModal.title};
+			if(!text) {text = this.props.editModal.text};	
+			this.props.editNote(title, text, color, id);
+			this.setState({saveButtonStatus: 'btn btn-save no-save'});
+			this.props.closeEditModal();
+			this.props.getNotes();
+		}
 	}
 
   render() {
-
   	if(this.props.editModal.status === 'open'){
 
   		let title = this.props.editModal.title;
   		let text = this.props.editModal.text;
-  		let color = this.props.editModal.color;
+  		let color = this.state.color ? this.state.color : this.props.editModal.color;
 
   		return (
-	      <div className={"note-modal " + color}>
+	      <div className={"note-modal " + color} >
 
 		  		<ul className="palette group">
 		  			<li id="red" onClick={() => this.setColor('red')}></li>
@@ -71,7 +81,7 @@ class EditModal extends Component {
 
 		  		<div className="modal-footer">
 		  			<button className="btn btn-cancel" onClick={()=> this.handleCancel()}>Cancel</button>
-		  			<button className="btn btn-save" onClick={() => this.handleSubmit()}>Save</button>
+		  			<button className={this.buttonStatus()} onClick={() => this.handleSubmit()}>Save</button>
 		  		</div>
 	     
 	      </div>

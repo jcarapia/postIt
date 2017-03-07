@@ -96,13 +96,14 @@ export function deleteNote(noteId) {
 	}
 };
 
-export function editNote(title, text, id) {
+export function editNote(title, text, color, id) {
 	let notes = localStorage.getItem('notes');
 	let notesArray = JSON.parse(notes);
 
 	for(var i = 0; i < notesArray.length; i++) {
 		if(notesArray[i].id === id){
 			notesArray[i].title = title;
+			notesArray[i].color = color;
 			notesArray[i].text = text;
 		}
 	}

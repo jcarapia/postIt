@@ -7,6 +7,7 @@ import {openDeleteModal} from '../actions/index';
 class Note extends Component {
 
 	editNote() {
+		console.log('opening edit modal', this.props)
 		let title = this.props.title;
 		let text = this.props.text;
 		let id = this.props.id;
@@ -19,7 +20,8 @@ class Note extends Component {
 		this.props.openDeleteModal(id);
 	}
 
-  render() {	
+  render() {
+  	
     return (
       <div className={"note " + this.props.color}>
       	<h5>{this.props.title}
